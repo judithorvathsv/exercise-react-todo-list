@@ -75,6 +75,4 @@ export function App() {
   );
 }
 
-/*
-2 edit existing todos 
-*/
+

@@ -13,7 +13,7 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
     onRefreshTodoList(allTodos);
   }
 
-  //--------------FILTER TODO BY AUTHOR function-------------------------
+  //--------------FILTER TODOLIST BY AUTHOR function-------------------------
   function getFilteredTodoByAuthor() {
     if (selectedOption == null || selectedOption == "") {
       selectedOption = "All user";
@@ -116,29 +116,25 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
     }
   }
 
+  //--------------SORT TODO function-------------------------
   function sortTodosByDueDate(e: any) {
-    console.log(e.target);
     let buttonLabel = e.target.innerText;
     let allTodoFilteredByAuthor = getFilteredTodoByAuthor();
-    if (buttonLabel == "Sort by due date") {
-      console.log("by due date");
+    if (buttonLabel == "Sort todo by due date") {
       e.target.innerText = "Show original list";
       allTodoFilteredByAuthor.sort(function (a: any, b: any): any {
         let aDate: any = new Date(a.shouldBeDoneBy);
         let bDate: any = new Date(b.shouldBeDoneBy);
         return aDate - bDate;
       });
-      console.log(getFilteredTodoByAuthor(), "aut1");
       reWriteTodoList(allTodoFilteredByAuthor);
     } else {
-      console.log("by creation");
       allTodoFilteredByAuthor.sort(function (a: any, b: any): any {
         let aCreatedDate: any = new Date(a.created);
         let bCreatedDate: any = new Date(b.created);
         return aCreatedDate - bCreatedDate;
       });
-      e.target.innerText = "Sort by due date";
-      console.log(getFilteredTodoByAuthor(), "aut2");
+      e.target.innerText = "Sort todo by due date";
       reWriteTodoList(allTodoFilteredByAuthor);
     }
   }
