@@ -19,7 +19,6 @@ export type TodoProps = {
 };
 
 let count: number = 1;
-let countTodos = 0;
 
 export function App() {
   const [allAuthors, setAllAuthors] = useState<AuthorProps[]>([{ authorName: "All user", id: 0 }]);
@@ -39,7 +38,7 @@ export function App() {
   function handleAddTodo(todo: TodoProps) {
     setAllTodos((prevTodos) => {
       const newTodo: TodoProps = {
-        author: selectedOption,
+        author: selectedOption == "" ? "All user" : selectedOption,
         text: todo.text,
         done: todo.done,
         shouldBeDoneBy: todo.shouldBeDoneBy,
@@ -54,6 +53,8 @@ export function App() {
     setSelectedOption(selectedOption);
     return selectedOption;
   };
+
+  console.log(allTodos,'in app');
 
   return (
     <>

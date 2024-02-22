@@ -5,7 +5,7 @@ type AllAuthorProps = {
   onGetSelectedOption: (selectedOption: string) => string;
 };
 const AuthorDropDown = ({ allAuthors, onGetSelectedOption }: AllAuthorProps) => {
-  function handleSelectedOption(e: string): void {
+  function handleSelectedOption(e: string): void {  
     onGetSelectedOption(e);
   }
 

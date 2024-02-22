@@ -6,10 +6,41 @@ type AllTodoProps = {
 };
 
 const TodoList = ({ allTodos }: AllTodoProps) => {
+  function checkOrUncheckTodoAsDone(textSpan: any) {
+    if (textSpan.classList.contains("lineThrough")) {
+      textSpan.classList.remove("lineThrough");
+      allTodos.map((t) => {
+        if (t.text == textSpan.innerText) {
+          let index = allTodos.indexOf(t);
+          if (index >= 0) {
+            t.done = false;
+          }
+        }
+      });
+    } else {
+      textSpan.classList.add("lineThrough");
+      allTodos.map((t) => {
+        if (t.text == textSpan.innerText) {
+          let index = allTodos.indexOf(t);
+          if (index >= 0) {
+            t.done = true;
+          }
+        }
+      });
+    }
+  }
+  function handleTodoItem(e: any): void {  
+    if (e.target.classList.contains("doneButton")) {
+      let textSpan = e.target.parentElement.parentElement.children[0].children[0];
+      checkOrUncheckTodoAsDone(textSpan);
+    }
+    console.log(allTodos, "in todo");
+  }
+
   return (
     <section id="todoSection" className="todo-list">
       {allTodos.map((todoItem) => (
-        <Todo todoItem={todoItem} key={todoItem.id} />
+        <Todo todoItem={todoItem} key={todoItem.id} onHandleTodoItem={(e) => handleTodoItem(e)} />
       ))}
     </section>
   );

@@ -1,11 +1,26 @@
-const Todo = ({ todoItem }: any) => {
+
+
+
+const Todo = ({ todoItem, onHandleTodoItem }: { todoItem: any; onHandleTodoItem(e: any): void }) => {
+  function handleClickedButtonForTodoItem(e: any) {
+    onHandleTodoItem(e);
+  }
+
   return (
-    <article className="todo-item">
+    <article
+      className="todo-item"
+      onClick={(e) => {
+        handleClickedButtonForTodoItem(e);
+      }}
+    >
       <div className="content">
-        <span className="text ${addedClass}">{todoItem.text}</span>
+        <span className="text {addedClass}">{todoItem.text}</span>
         <span className="shouldBeDoneTimeSpan notShow">{todoItem.shouldBeDoneBy}</span>
         <span hidden className="created ">
           ${todoItem.created}
+        </span>
+        <span hidden className="id">
+          {todoItem.id}
         </span>
       </div>
       <div className="action-icons">
