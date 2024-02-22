@@ -54,7 +54,11 @@ export function App() {
     return selectedOption;
   };
 
-  console.log(allTodos,'in app');
+  function handleTodoListRefresh(newTodos: TodoProps[]) { 
+    setAllTodos([...newTodos]);
+  }
+
+  console.log(allTodos, "in app");
 
   return (
     <>
@@ -65,17 +69,17 @@ export function App() {
         <NewAuthor onAddAuthor={handleAddAuthor} />
         <AuthorDropDown allAuthors={allAuthors} onGetSelectedOption={(selectedOption) => handleSelectedAuthorOption(selectedOption)} />
         <NewTodo onAddTodo={handleAddTodo} />
-        <TodoList allTodos={allTodos} />
+        <TodoList allTodos={allTodos} onRefreshTodoList={(newTodos) => handleTodoListRefresh(newTodos)} />
       </main>
     </>
   );
 }
 
 /*
-1 view all my todos in the same place
+1 view all my todos in the same place 
 2 add new todos to my todo list -- OK
-3 mark a todo as completed 
-4 remove a todo from the list 
+3 mark a todo as completed -- OK
+4 remove a todo from the list -- OK 
 5 move todos up and down in order to prioritize what I have to do.
 6 edit existing todos 
 7 timestamp to be added to my new todos in order better se how old all the todos are.
