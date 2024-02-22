@@ -6,6 +6,7 @@ type AllTodoProps = {
 };
 
 const TodoList = ({ allTodos }: AllTodoProps) => {
+  //--------------DONE function-------------------------
   function checkOrUncheckTodoAsDone(textSpan: any) {
     if (textSpan.classList.contains("lineThrough")) {
       textSpan.classList.remove("lineThrough");
@@ -29,10 +30,32 @@ const TodoList = ({ allTodos }: AllTodoProps) => {
       });
     }
   }
-  function handleTodoItem(e: any): void {  
+
+  //--------------DELETE function-------------------------
+  function deleteTodo(textSpan: any) {
+    //remove todo from allTodo array
+    allTodos.map((t) => {
+      if (t.text == textSpan.innerText) {
+        let index = allTodos.indexOf(t);
+        if (index > -1) {
+          allTodos.splice(index, 1);
+        }
+      }
+    });
+
+    //remove todo from Html
+    let grandParentElementInHtml = textSpan.parentElement.parentElement;
+    console.log(textSpan.parentElement.parentElement);
+    grandParentElementInHtml.parentNode.removeChild(grandParentElementInHtml);
+  }
+
+  function handleTodoItem(e: any): void {
     if (e.target.classList.contains("doneButton")) {
       let textSpan = e.target.parentElement.parentElement.children[0].children[0];
       checkOrUncheckTodoAsDone(textSpan);
+    } else if (e.target.classList.contains("deleteButton")) {
+      let textSpan = e.target.parentElement.parentElement.children[0].children[0];
+      deleteTodo(textSpan);
     }
     console.log(allTodos, "in todo");
   }
