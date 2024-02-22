@@ -76,7 +76,5 @@ export function App() {
 }
 
 /*
-1 view all my todos in the same place 
 2 edit existing todos 
-3 sort my todos after either timestamp or author. 
 */

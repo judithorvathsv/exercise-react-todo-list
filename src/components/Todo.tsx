@@ -1,7 +1,3 @@
-/* //************
- **************
- *********** / */
-
 import { useState } from "react";
 
 const Todo = ({ todoItem, onHandleTodoItem }: { todoItem: any; onHandleTodoItem(e: any): void }) => {

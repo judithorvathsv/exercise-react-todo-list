@@ -114,11 +114,41 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
     } else if (e.target.classList.contains("downButton")) {
       moveDownTodoItem(textSpan);
     }
-    console.log(allTodos, "in todo");
+  }
+
+  function sortTodosByDueDate(e: any) {
+    console.log(e.target);
+    let buttonLabel = e.target.innerText;
+    let allTodoFilteredByAuthor = getFilteredTodoByAuthor();
+    if (buttonLabel == "Sort by due date") {
+      console.log("by due date");
+      e.target.innerText = "Show original list";
+      allTodoFilteredByAuthor.sort(function (a: any, b: any): any {
+        let aDate: any = new Date(a.shouldBeDoneBy);
+        let bDate: any = new Date(b.shouldBeDoneBy);
+        return aDate - bDate;
+      });
+      console.log(getFilteredTodoByAuthor(), "aut1");
+      reWriteTodoList(allTodoFilteredByAuthor);
+    } else {
+      console.log("by creation");
+      allTodoFilteredByAuthor.sort(function (a: any, b: any): any {
+        let aCreatedDate: any = new Date(a.created);
+        let bCreatedDate: any = new Date(b.created);
+        return aCreatedDate - bCreatedDate;
+      });
+      e.target.innerText = "Sort by due date";
+      console.log(getFilteredTodoByAuthor(), "aut2");
+      reWriteTodoList(allTodoFilteredByAuthor);
+    }
   }
 
   return (
     <section id="todoSection" className="todo-list">
+      <button id="sortTodoByTime" onClick={(e) => sortTodosByDueDate(e)}>
+        Sort by due date
+      </button>
+      <hr />
       {getFilteredTodoByAuthor().map((todoItem) => (
         <Todo todoItem={todoItem} key={todoItem.id} onHandleTodoItem={(e) => handleTodoItem(e)} />
       ))}

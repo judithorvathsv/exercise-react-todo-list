@@ -5,12 +5,6 @@ type NewTodoProps = {
 };
 
 const NewTodo = ({ onAddTodo }: NewTodoProps) => {
-  function getCorrectDateTimeFormat(dateTimeData: Date): string {
-    //MONTH AND DATE IS NOT OK !!!!!!
-    let dateTimeDataInCorrectForm = `${dateTimeData.getFullYear()}-${dateTimeData.getUTCMonth()}-${dateTimeData.getUTCDay()} ${dateTimeData.getHours()}:${dateTimeData.getMinutes()}`;
-    return dateTimeDataInCorrectForm;
-  }
-
   //---------------------------------------------------
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -21,13 +15,10 @@ const NewTodo = ({ onAddTodo }: NewTodoProps) => {
 
     const text = target.text.value;
     const timeInput = target.timeInput.value.replace("T", " ");
-    const dateTimeNow = new Date();
-    //console.log(dateTimeNow, "dateTimeNow");
-    const createdDateTime = getCorrectDateTimeFormat(dateTimeNow);
-    //console.log(createdDateTime, "createdDateTime");
+    const createdDateTime = new Date().toString();
 
     let newtodo = {
-      author: "Judit",
+      author: "SelectedUser",
       text: text,
       done: false,
       shouldBeDoneBy: timeInput,
