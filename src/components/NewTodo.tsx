@@ -37,11 +37,11 @@ const NewTodo = ({ onAddTodo }: NewTodoProps) => {
           <label className="todoInputLabel" htmlFor="todoInput">
             Todo:
           </label>
-          <input type="text" name="text" id="todoInput" />
+          <input type="text" name="text" id="todoInput" required />
           <label className="todoInputLabel" htmlFor="timeInput">
             Due date:
           </label>
-          <input type="datetime-local" name="timeInput" id="timeInput" />
+          <input type="datetime-local" name="timeInput" id="timeInput" required />
           <button type="submit" id="submitButton">
             Save
           </button>

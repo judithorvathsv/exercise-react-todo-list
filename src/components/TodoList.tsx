@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { TodoProps } from "../App";
 import Todo from "./Todo";
 
@@ -8,6 +9,7 @@ type AllTodoProps = {
 };
 
 const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps) => {
+  const [text, setText] = useState("");
   //---------------refresh html -----------------------
   function reWriteTodoList(allTodos: TodoProps[]) {
     onRefreshTodoList(allTodos);
@@ -63,7 +65,6 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
     });
     //remove todo from Html
     let grandParentElementInHtml = textSpan.parentElement.parentElement;
-    console.log(textSpan.parentElement.parentElement);
     grandParentElementInHtml.parentNode.removeChild(grandParentElementInHtml);
   }
 
@@ -77,7 +78,6 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
           let thisItem = allTodos[index];
           allTodos[index] = beforeItem;
           allTodos[index - 1] = thisItem;
-          console.log(allTodos, "moveTodos");
           reWriteTodoList(allTodos);
         }
       }
@@ -101,21 +101,6 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
     }
   }
 
-  //--------------MAIN function-------------------------
-  function handleTodoItem(e: any): void {
-    getFilteredTodoByAuthor();
-    let textSpan = e.target.parentElement.parentElement.children[0].children[0];
-    if (e.target.classList.contains("doneButton")) {
-      checkOrUncheckTodoAsDone(textSpan);
-    } else if (e.target.classList.contains("deleteButton")) {
-      deleteTodo(textSpan);
-    } else if (e.target.classList.contains("upButton")) {
-      moveUpTodoItem(textSpan);
-    } else if (e.target.classList.contains("downButton")) {
-      moveDownTodoItem(textSpan);
-    }
-  }
-
   //--------------SORT TODO function-------------------------
   function sortTodosByDueDate(e: any) {
     let buttonLabel = e.target.innerText;
@@ -136,6 +121,66 @@ const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps)
       });
       e.target.innerText = "Sort todo by due date";
       reWriteTodoList(allTodoFilteredByAuthor);
+    }
+  }
+
+  //--------------EDIT TODO function-------------------------
+  function editTodoItem(textSpan: any) {
+    let buttonSpan = textSpan.parentElement.parentElement.children[1].children[4];
+    const inputFIeldChild = document.createElement("input");
+    inputFIeldChild.setAttribute("id", "inputChild");
+    inputFIeldChild.setAttribute("type", "text");
+    let parent = buttonSpan.parentElement.parentElement.children[0];
+    let originalTextField = buttonSpan.parentElement.parentElement.children[0].children[0];
+    let originalTodoText = originalTextField.innerText;
+
+    //if click on edit button
+    if (buttonSpan.innerText == "edit") {
+      //get input field with original info from todo
+      parent.replaceChild(inputFIeldChild, originalTextField);
+      inputFIeldChild.setAttribute("value", originalTodoText);
+      //change button text
+      buttonSpan.innerText = "bookmark_added";
+    } else {
+      //get info from input field
+      const input = document.getElementById("inputChild") as HTMLInputElement | null;
+      if (input?.value !== "") {
+        setText(input == null ? originalTodoText : input.value);
+        //set span back with info from input field
+        const spanChild = document.createElement("span");
+        parent.appendChild(spanChild);
+        spanChild.innerText = input == null ? originalTodoText : input.value;
+        spanChild.classList.add("text");
+        parent.replaceChild(spanChild, parent.firstElementChild);
+        //change button text back to origin
+        buttonSpan.innerText = "edit";
+        const createdAt = parent.children[2].innerText;
+        allTodos.map((t) => {
+          console.log(t.created + "list date");
+          if (t.created.toString() == createdAt.toString().substring(1)) {
+            t.text = input == null ? originalTodoText : input.value;
+          }
+        });
+      }
+    }
+  }
+
+  console.log(allTodos, "bent");
+
+  //--------------MAIN function-------------------------
+  function handleTodoItem(e: any): void {
+    getFilteredTodoByAuthor();
+    let textSpan = e.target.parentElement.parentElement.children[0].children[0];
+    if (e.target.classList.contains("doneButton")) {
+      checkOrUncheckTodoAsDone(textSpan);
+    } else if (e.target.classList.contains("deleteButton")) {
+      deleteTodo(textSpan);
+    } else if (e.target.classList.contains("upButton")) {
+      moveUpTodoItem(textSpan);
+    } else if (e.target.classList.contains("downButton")) {
+      moveDownTodoItem(textSpan);
+    } else if (e.target.classList.contains("editButton")) {
+      editTodoItem(textSpan);
     }
   }
 

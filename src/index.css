@@ -131,14 +131,10 @@ hr {
   border-radius: 3px;
 }
 
-#sortTodoByTime,
-#showTimeButton {
+#sortTodoByTime {
   padding: 0.2rem;
+  margin-top: 1rem;
   border: 1px solid var(--middleGreen-color);
   background-color: var(--middleGreen-color);
   color: white;
-}
-
-#timeButtonSection {
-  margin-top: 0.5rem;
 }
