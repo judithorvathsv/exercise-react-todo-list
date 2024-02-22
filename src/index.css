@@ -61,6 +61,12 @@ fieldset {
   justify-content: space-between;
 }
 
+span.shouldBeDoneTimeSpan {
+  font-size: 0.8rem;
+  color: darkgreen;
+  margin-right: 1rem;
+}
+
 .notShow {
   display: none;
 }

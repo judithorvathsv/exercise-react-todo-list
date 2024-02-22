@@ -1,15 +1,28 @@
-import { useCallback, useState } from "react";
 import { TodoProps } from "../App";
 import Todo from "./Todo";
 
 type AllTodoProps = {
   allTodos: TodoProps[];
+  onRefreshTodoList(allTodos: TodoProps[]): void;
+  selectedOption: string;
 };
 
-const TodoList = ({ allTodos, onRefreshTodoList }: { allTodos: TodoProps[]; onRefreshTodoList(allTodos: TodoProps[]): void }) => {
-  //----------------------------------------------------
+const TodoList = ({ allTodos, onRefreshTodoList, selectedOption }: AllTodoProps) => {
+  //---------------refresh html -----------------------
   function reWriteTodoList(allTodos: TodoProps[]) {
     onRefreshTodoList(allTodos);
+  }
+
+  //--------------FILTER TODO BY AUTHOR function-------------------------
+  function getFilteredTodoByAuthor() {
+    if (selectedOption == null || selectedOption == "") {
+      selectedOption = "All user";
+    }
+    if (selectedOption !== "All user") {
+      return allTodos.filter((todo) => todo.author == selectedOption);
+    } else {
+      return allTodos;
+    }
   }
 
   //--------------DONE function-------------------------
@@ -88,7 +101,9 @@ const TodoList = ({ allTodos, onRefreshTodoList }: { allTodos: TodoProps[]; onRe
     }
   }
 
+  //--------------MAIN function-------------------------
   function handleTodoItem(e: any): void {
+    getFilteredTodoByAuthor();
     let textSpan = e.target.parentElement.parentElement.children[0].children[0];
     if (e.target.classList.contains("doneButton")) {
       checkOrUncheckTodoAsDone(textSpan);
@@ -104,7 +119,7 @@ const TodoList = ({ allTodos, onRefreshTodoList }: { allTodos: TodoProps[]; onRe
 
   return (
     <section id="todoSection" className="todo-list">
-      {allTodos.map((todoItem) => (
+      {getFilteredTodoByAuthor().map((todoItem) => (
         <Todo todoItem={todoItem} key={todoItem.id} onHandleTodoItem={(e) => handleTodoItem(e)} />
       ))}
     </section>
